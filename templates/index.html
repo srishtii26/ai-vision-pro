@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Vision Pro</title>
+    <link rel="stylesheet" href="/static/css/animations.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(-45deg,#667eea,#764ba2,#6a11cb,#2575fc);
+            background-size:400% 400%;
+            animation:gradient 12s ease infinite;
+        }
+
+        @keyframes gradient{
+            0%{background-position:0% 50%;}
+            50%{background-position:100% 50%;}
+            100%{background-position:0% 50%;}
+        }
+
+        .card{
+            width:500px;
+            padding:40px;
+            border-radius:20px;
+            background:rgba(255,255,255,0.15);
+            backdrop-filter:blur(15px);
+            -webkit-backdrop-filter:blur(15px);
+            box-shadow:0 8px 32px rgba(0,0,0,0.2);
+            text-align:center;
+            color:white;
+        }
+
+        h1{
+            font-size:2rem;
+            margin-bottom:10px;
+        }
+
+        p{
+            opacity:0.9;
+            margin-bottom:25px;
+        }
+
+       .upload-box{
+    border:2px dashed rgba(255,255,255,0.5);
+    padding:30px;
+    border-radius:15px;
+    margin-bottom:20px;
+    transition:0.3s ease;
+}
+
+        input[type=file]{
+            color:white;
+        }
+
+        #preview{
+    display:none;
+    width:250px;
+    margin:20px auto;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    transition:0.4s ease;
+}
+
+#preview:hover{
+    transform:scale(1.03);
+}
+
+        button{
+            background:white;
+            color:#6a11cb;
+            border:none;
+            padding:12px 25px;
+            border-radius:10px;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            transform:scale(1.05);
+        }
+
+        .footer{
+            margin-top:20px;
+            font-size:13px;
+            opacity:0.8;
+        }
+
+        .spinner{
+            width:50px;
+            height:50px;
+            border:5px solid rgba(255,255,255,0.3);
+            border-top:5px solid white;
+            border-radius:50%;
+            animation:spin 1s linear infinite;
+            margin:15px auto;
+        }
+
+        @keyframes spin{
+            100%{
+                transform:rotate(360deg);
+            }
+        }
+
+        #loader{
+            display:none;
+            margin-top:20px;
+        }
+        .stats-container{
+    display:flex;
+    justify-content:space-between;
+    margin-top:25px;
+    gap:10px;
+}
+
+.stat-card{
+    flex:1;
+    background:rgba(255,255,255,0.1);
+    padding:12px;
+    border-radius:12px;
+}
+
+.stat-card h2{
+    margin-bottom:5px;
+}
+
+.stat-card p{
+    font-size:12px;
+    margin:0;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <h1>🤖 AI Vision Pro</h1>
+
+        <p>Upload an image and let AI identify objects instantly.</p>
+
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+
+           <div class="upload-box">
+
+    <div style="font-size:50px;margin-bottom:15px;">
+        🖼️
+    </div>
+
+    <h3>Drag & Drop Your Image</h3>
+
+    <p style="margin-top:10px;">
+        JPG, PNG, JPEG supported
+    </p>
+
+    <input
+        type="file"
+        name="file"
+        accept="image/*"
+        onchange="previewImage(event)"
+        required>
+
+    <img id="preview" alt="Image Preview">
+
+</div>
+<div id="fileInfo"
+     style="margin-top:10px;font-size:14px;">
+</div>
+
+            <button type="submit">
+                Analyze Image
+            </button>
+
+            <div id="loader">
+
+                <div class="spinner"></div>
+
+                <p>🤖 AI is analyzing your image...</p>
+
+            </div>
+
+        </form>
+
+        <div class="stats-container">
+
+    <div class="stat-card">
+        <h2 id="imagesCount">0</h2>
+        <p>Images Analyzed</p>
+    </div>
+
+    <div class="stat-card">
+        <h2 id="predictionsCount">0</h2>
+        <p>Predictions Made</p>
+    </div>
+
+    <div class="stat-card">
+        <h2 id="accuracyCount">0</h2>
+        <p>Accuracy %</p>
+    </div>
+
+</div>
+<div id="history-list"></div>
+<div class="footer">
+    Powered by TensorFlow & Flask
+</div>
+
+    </div>
+
+    <script src="/static/js/preview.js"></script>
+    <script src="/static/js/loading.js"></script>
+    <script src="/static/js/uploadInfo.js"></script>
+    <script src="/static/js/stats.js"></script>
+    <link rel="stylesheet" href="/static/css/card-effects.css">
+</body>
+</html>
